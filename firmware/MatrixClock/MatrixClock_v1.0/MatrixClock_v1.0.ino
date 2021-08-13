@@ -1,4 +1,24 @@
 /*********************************************************************************************************
+  CZY_MatrixClock                                                                                 
+  ********************************************************************************************************
+  Author: CZY                                                                                                                                             
+  Version 1.0 
+  CZY_MatrixClock is a free download and may be used, modified, evaluated and
+  distributed without charge provided the user adheres to version hree of the GNU
+  General Public License (GPL) and does not remove the copyright notice or this
+  text.  The GPL V3 text is available on the gnu.org web site
+  作者：CZY                      
+  Version 1.0                                                                                           
+  CZY_MatrixClock是一个完全开源的硬件项目，基于HACK_CLOCK v3.0，添加了生日祝福功能，并对其他地方进行了改进和注释，允许用户免费下载使用，但需遵守GPL V3开源协议，协议文本可在gnu.org网站上获得.  
+
+  *如果你使用的硬件是v2.2版本，你需要注释掉#define REVERSE_HORIZONTAL和#define REVERSE_VERTICAL.
+  *如果你不想要滚动日历功能，请Ctrl+F搜索“滚动开关”，将true改为false.
+  *如果你想调节LED亮度，请Ctrl+F搜索“max7219_set_brightness(1)”，将1改为0~15之间的任意数，15最亮，0最暗.
+  *请注意，使用红色以外颜色的屏幕时，不建议将亮度调至13及以上，会有烧毁风险.
+*********************************************************************************************************/
+
+/*********************************************************************************************************
+  原作者信息
   HACK LABS MatrixClock                                                                                 
   ********************************************************************************************************
   Author: HACK实验室                                                                                     
@@ -17,25 +37,6 @@
   *如果你使用的硬件是v2.2版本，你需要注释掉#define REVERSE_HORIZONTAL和#define REVERSE_VERTICAL.
   *如果你不想要滚动日历功能，请Ctrl+F搜索“滚动开关”，将true改为false.
   *如果你想调节LED亮度，请Ctrl+F搜索“max7219_set_brightness(1)”，将1改为0~15之间的任意数，15最亮，0最暗.
-*********************************************************************************************************/
-
-/*********************************************************************************************************
-  CZY_MatrixClock                                                                                 
-  ********************************************************************************************************
-  Author: CZY                                                                                                                                             
-  Version 1.0 
-  CZY_MatrixClock is a free download and may be used, modified, evaluated and
-  distributed without charge provided the user adheres to version hree of the GNU
-  General Public License (GPL) and does not remove the copyright notice or this
-  text.  The GPL V3 text is available on the gnu.org web site
-  作者：CZY                      
-  Version 1.0                                                                                           
-  CZY_MatrixClock是一个完全开源的硬件项目，基于HACK_CLOCK v3.0，添加了生日祝福功能，并对其他地方进行了改进和注释，允许用户免费下载使用，但需遵守GPL V3开源协议，协议文本可在gnu.org网站上获得.  
-
-  *如果你使用的硬件是v2.2版本，你需要注释掉#define REVERSE_HORIZONTAL和#define REVERSE_VERTICAL.
-  *如果你不想要滚动日历功能，请Ctrl+F搜索“滚动开关”，将true改为false.
-  *如果你想调节LED亮度，请Ctrl+F搜索“max7219_set_brightness(1)”，将1改为0~15之间的任意数，15最亮，0最暗.
-  *请注意，使用红色以外颜色的屏幕时，不建议将亮度调至13及以上，会有烧毁风险.
 *********************************************************************************************************/
 
 #include <SPI.h>
