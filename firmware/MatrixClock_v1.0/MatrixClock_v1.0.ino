@@ -51,10 +51,10 @@
 #define SCL             4       // Pin scl (I2C)
 #define CS              15      // Pin cs  (SPI)
 #define anzMAX          4
-#define BIRTHMONTH      2       // Birth month, notice: use 6 rather than 06
-#define BIRTHDAY        16       // Birth day, notice: use 6 rather than 06
+#define BIRTHMONTH      4       // Birth month, notice: use 6 rather than 06
+#define BIRTHDAY        4       // Birth day, notice: use 6 rather than 06
 #define BIRTH_ENABLE    1       //1 = enable happy birthday function and 0 = disable
-#define BRIGHTNESS      3       // Set up screent brightness between 0 to 15，15 is brightest，0 is darkest
+#define BRIGHTNESS      1       // Set up screent brightness between 0 to 15，15 is brightest，0 is darkest
 //#define REVERSE_HORIZONTAL   //if you use hardware v2.2 board you need delete this line
 //#define REVERSE_VERTICAL     //if you use hardware v2.2 board you need delete this line
 
