@@ -55,7 +55,7 @@
 #define BIRTHDAY        15       // Birth day, notice: use 6 rather than 06
 #define BIRTH_ENABLE    0       //1 = enable happy birthday function and 0 = disable
 #define BRIGHTNESS      1       // Set up screent brightness between 0 to 15，15 is brightest，0 is darkest
-#define MYLOVE          0       // Add a ❤ in xScroll
+#define MYLOVE          1       // Add a ❤ in xScroll
 //#define REVERSE_HORIZONTAL   //if you use hardware v2.2 board you need delete this line
 //#define REVERSE_VERTICAL     //if you use hardware v2.2 board you need delete this line
 
