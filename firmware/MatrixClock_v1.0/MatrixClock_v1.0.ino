@@ -51,12 +51,14 @@
 #define SCL             4       // Pin scl (I2C)
 #define CS              15      // Pin cs  (SPI)
 #define anzMAX          4
-#define BIRTHMONTH      4       // Birth month, notice: use 6 rather than 06
-#define BIRTHDAY        4       // Birth day, notice: use 6 rather than 06
-#define BIRTH_ENABLE    1       //1 = enable happy birthday function and 0 = disable
+#define BIRTHMONTH      8       // Birth month, notice: use 6 rather than 06
+#define BIRTHDAY        15       // Birth day, notice: use 6 rather than 06
+#define BIRTH_ENABLE    0       //1 = enable happy birthday function and 0 = disable
 #define BRIGHTNESS      1       // Set up screent brightness between 0 to 15，15 is brightest，0 is darkest
+#define MYLOVE          0       // Add a ❤ in xScroll
 //#define REVERSE_HORIZONTAL   //if you use hardware v2.2 board you need delete this line
 //#define REVERSE_VERTICAL     //if you use hardware v2.2 board you need delete this line
+
 
 char ssid[] = "";                    // your network SSID (name)
 char pass[] = "";                    // your network password
@@ -323,6 +325,13 @@ unsigned short const font2[96][9] = { { 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
         { 0x07, 0x08, 0x15, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00 },   // 0x7e, ~
         { 0x07, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x00 }    // 0x7f, DEL
 };
+
+unsigned short const font3[3][9] = { { 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00 },   // 0x20, Space
+        { 0x08, 0x36, 0x7F, 0x7F, 0x7F, 0x3E, 0x1C, 0x08, 0x00 },   // 0x??, ♥
+        { 0x08, 0x00, 0x36, 0x7F, 0x7F, 0x3E, 0x1C, 0x08, 0x00 }    // 0x7f, little ♥
+};
+
 //**************************************************************************************************
 bool autoConfig()
 {
@@ -821,6 +830,37 @@ void char22Arr(unsigned short ch, int PosX, short PosY) { //characters into arr
     }
 }
 
+void char222Arr(int ch, int PosX, short PosY) { //characters into arr
+    int i, j, k, l, m, o1, o2, o3, o4;  //in LEDarr
+    PosX++;
+    k = ch;                        //position in font
+    if ((k >= 0) && (k < 3))           //character found in font?
+    {
+        o4 = font3[k][0];                 //character width
+        o3 = 1 << (o4 - 2);
+        for (i = 0; i < o4; i++) {
+            if (((PosX - i <= maxPosX) && (PosX - i >= 0))
+                    && ((PosY > -8) && (PosY < 8))) //within matrix?
+            {
+                o1 = helpArrPos[PosX - i];
+                o2 = helpArrMAX[PosX - i];
+                for (j = 0; j < 8; j++) {
+                    if (((PosY >= 0) && (PosY <= j)) || ((PosY < 0) && (j < PosY + 8))) //scroll vertical
+                    {
+                        l = font3[k][j + 1];
+                        m = (l & (o3 >> i));  //e.g. o4=7  0zzzzz0, o4=4  0zz0
+                        if (m > 0)
+                            LEDarr[o2][j - PosY] = LEDarr[o2][j - PosY] | (o1);  //set point
+                        else
+                            LEDarr[o2][j - PosY] = LEDarr[o2][j - PosY] & (~o1); //clear point
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 //**************************************************************************************************
 void timer50ms() {
     static unsigned int cnt50ms = 0;
@@ -966,8 +1006,8 @@ void loop() {
                 birth_flag = BIRTH_ENABLE && MEZ.tag12==BIRTHDAY && MEZ.mon12==BIRTHMONTH;
                 //birth_flag = BIRTH_ENABLE && MEZ.min12==19; //test
                 if (
-                    (!birth_flag && d_PosX==62) ||
-                    (birth_flag && d_PosX==158)
+                    MYLOVE? ((!birth_flag && d_PosX==74) || (birth_flag && d_PosX==170)) : 
+                    ((!birth_flag && d_PosX==62) || (birth_flag && d_PosX==158))
                 ){
                     z_PosX = 0;
                 }
@@ -984,9 +1024,9 @@ void loop() {
                 else
                     y++;
                 y3 = y;
-                /*if (y3 > 0) { //###################################
+                if (y3 > 0) { //###################################
                 y3 = 0;         //enable refresh and disable y scroll
-                }*/             //###################################
+                }            //###################################
                 char22Arr(48 + sek12, z_PosX - 27, y3);
                 char22Arr(48 + sek11, z_PosX - 27, y + y1);
                 if (y == 0) {
@@ -1057,8 +1097,12 @@ void loop() {
             char2Arr(WT_arr[MEZ.WT][0], d_PosX - 36, 0);        //day of the week
             char2Arr(WT_arr[MEZ.WT][1], d_PosX - 42, 0);
             char2Arr(WT_arr[MEZ.WT][2], d_PosX - 48, 0);
+            if (MYLOVE){
+                char222Arr(2, d_PosX - 60, 0);
+            }
             if (birth_flag == true){
                 for (int i = 0; i < 15; i++){
+                    MYLOVE? char2Arr(HB_arr[i], d_PosX - 72 - i*6, 0) : 
                     char2Arr(HB_arr[i], d_PosX - 60 - i*6, 0);
                 }
             }
